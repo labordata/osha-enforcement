@@ -38,8 +38,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # automatically provided by github actions
         with:
-          upload_url: https://uploads.github.com/repos/labordata/opdr/releases/43881005/assets{?name,label}
-          release_id: 43881005
+          upload_url: https://uploads.github.com/repos/labordata/opdr/releases/79016044/assets{?name,label}
+          release_id: 79016044
           asset_path: ./osha.db.zip # path to archive to upload
           asset_name: osha.db.zip # name to upload the release as, use $$ to insert date (YYYYMMDD) and 6 letter commit hash
           asset_content_type: application/zip # required by GitHub API
