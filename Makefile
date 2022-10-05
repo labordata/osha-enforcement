@@ -52,6 +52,7 @@ osha_enforcement.db : inspection.csv violation.csv accident.csv		\
             violation activity_nr inspection activity_nr \
             violation_event activity_nr violation activity_nr \
             violation_gen_duty_std activity_nr violation activity_nr
+	sqlite-utils vacuum $@
 
 event_type.csv : accident_lookup2.csv
 	csvgrep -c accident_code -m FT $< > $@
