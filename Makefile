@@ -9,7 +9,7 @@ osha_enforcement.db : inspection.csv violation.csv accident.csv		\
                       degree_injury.csv task.csv project_type.csv	\
                       end_use.csv cost.csv
 	csvs-to-sqlite $(word 1, $^) $@
-	csvs-to-sqlite $(word 2, $^) $@
+	sqlite-utils insert $@ $(basename $(word 2, $^)) $(word 2,$^) --csv --detect-types
 	csvs-to-sqlite $(wordlist 3, $(words $^), $^) $@
 	sqlite-utils transform $@ accident --pk summary_nr
 	sqlite-utils transform $@ inspection --pk activity_nr
