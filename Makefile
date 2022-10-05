@@ -1,14 +1,16 @@
-osha_enforcement.db : accident.csv accident_abstract.csv		\
-                      accident_injury.csv inspection.csv		\
+osha_enforcement.db : inspection.csv violation.csv accident.csv		\
+                      accident_abstract.csv accident_injury.csv		\
                       optional_info.csv related_activity.csv		\
-                      strategic_codes.csv violation.csv			\
-                      violation_event.csv violation_gen_duty_std.csv	\
-                      event_type.csv fatality.csv operator.csv		\
-                      environmental.csv human.csv injury.csv		\
-                      occupation.csv body_part.csv injury_source.csv	\
+                      strategic_codes.csv violation_event.csv		\
+                      violation_gen_duty_std.csv event_type.csv		\
+                      fatality.csv operator.csv environmental.csv	\
+                      human.csv injury.csv occupation.csv		\
+                      body_part.csv injury_source.csv			\
                       degree_injury.csv task.csv project_type.csv	\
                       end_use.csv cost.csv
-	csvs-to-sqlite $^ $@
+	csvs-to-sqlite $(word 1, $^) $@
+	csvs-to-sqlite $(word 2, $^) $@
+	csvs-to-sqlite $(wordlist 3, $(words $^), $^) $@
 	sqlite-utils transform $@ accident --pk summary_nr
 	sqlite-utils transform $@ inspection --pk activity_nr
 	sqlite-utils transform $@ event_type --pk accident_number
