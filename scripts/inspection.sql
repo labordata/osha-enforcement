@@ -40,7 +40,7 @@ CREATE TABLE "inspection" (
 );
 
 .mode csv
-.import /dev/stdin inspection
+.import --skip 1  /dev/stdin inspection
 
 
 END;

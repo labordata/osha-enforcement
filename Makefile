@@ -9,9 +9,7 @@ osha_enforcement.db : inspection.csv violation.csv accident.csv		\
                       degree_injury.csv task.csv project_type.csv	\
                       end_use.csv cost.csv
 	cat inspection.csv | sqlite3 $@ -init scripts/inspection.sql -bail
-	rm inspection.csv
 	cat violation.csv | sqlite3 $@ -init scripts/violation.sql -bail
-	rm violation.csv
 	csvs-to-sqlite $(wordlist 3, $(words $^), $^) $@
 	sqlite-utils transform $@ accident --pk summary_nr
 	sqlite-utils transform $@ event_type --pk accident_number
@@ -100,7 +98,7 @@ task.csv : accident_lookup2.csv
 %.csv : osha_%.csv.zip
 	unzip $<
 	csvstack `zipinfo -1 $<` > $@
-	rm $<
+	rm `zipinfo -1 $<`
 
 %.csv.zip : data_summary.php
 	wget -O $@ `grep -E $*_[0-9]+.csv.zip data_summary.php | perl -pe 's/^.*?<a href="(.*$*_\d+.csv.zip)".*/\1/'`
