@@ -97,6 +97,9 @@ task.csv : accident_lookup2.csv
 
 %.csv : osha_%.csv.zip
 	unzip $<
+	for file in `zipinfo -1 $<`; do \
+            tr -d \0 < $$file > tempfile && mv tempfile $$file; \
+        done
 	csvstack `zipinfo -1 $<` > $@
 	rm `zipinfo -1 $<`
 
