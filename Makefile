@@ -11,6 +11,7 @@ osha_enforcement.db : inspection.csv violation.csv accident.csv		\
 	cat inspection.csv | sqlite3 $@ -init scripts/inspection.sql -bail
 	cat violation.csv | sqlite3 $@ -init scripts/violation.sql -bail
 	csvs-to-sqlite $(wordlist 3, $(words $^), $^) $@
+	rm $^
 	sqlite-utils transform $@ accident --pk summary_nr
 	sqlite-utils transform $@ event_type --pk accident_number
 	sqlite-utils transform $@ fatality --pk accident_number
