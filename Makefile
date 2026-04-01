@@ -103,9 +103,15 @@ task.csv : accident_lookup2.csv
         done
 	csvstack `zipinfo -1 $<` > $@
 	rm `zipinfo -1 $<`
+	sed -i '1s/.*/\L&/' $@
 
-%.csv.zip : data_summary.php
-	wget -O $@ `grep -E $*_[0-9]+.csv.zip data_summary.php | perl -pe 's/^.*?<a href="(.*$*_\d+.csv.zip)".*/\1/'`
+DOL_DATA_URL = https://data.dol.gov/data-catalog/OSHA
 
-data_summary.php :
-	curl 'https://enforcedata.dol.gov/views/data_summary.php' -X POST --data-raw 'agency=osha' > $@
+osha_optional_info.csv.zip:
+	curl -L -o $@ $(DOL_DATA_URL)/optional_code_info/OSHA_optional_code_info.zip
+
+osha_strategic_codes.csv.zip:
+	curl -L -o $@ $(DOL_DATA_URL)/emphasis_codes/OSHA_emphasis_codes.zip
+
+osha_%.csv.zip:
+	curl -L -o $@ $(DOL_DATA_URL)/$*/OSHA_$*.zip
