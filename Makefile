@@ -103,6 +103,7 @@ task.csv : accident_lookup2.csv
         done
 	csvstack `zipinfo -1 $<` > $@
 	rm `zipinfo -1 $<`
+	sed -i '1s/.*/\L&/' $@
 
 DOL_DATA_URL = https://data.dol.gov/data-catalog/OSHA
 
